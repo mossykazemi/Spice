@@ -71,11 +71,9 @@ body {
 }
 
 
-
 .search-background {
-    background: url('/images/dust_scratches.png');
+    background: url('../images/dust_scratches.png');
 }
-
 
 .backgroundWhite {
     background-color: white;
