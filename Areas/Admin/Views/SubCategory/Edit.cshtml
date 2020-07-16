@@ -4,28 +4,29 @@
 
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 
 <br />
-<h2 class="text-info">Create Sub Category</h2>
+<h2 class="text-info">Edit Sub Category</h2>
 <br />
 
-<partial name="_StatusMessage" model="Model.StatusMessage"/>
+<partial name="_StatusMessage" model="Model.StatusMessage" />
 
 
 <div class="border backgroundWhite row">
     <div class="col-8 border-right">
-        <form asp-action="Create">
+        <form asp-action="Edit">
+            <input type="hidden" asp-for="SubCategory.CategoryId" />
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group row">
                 <div class="col-3">
                     <label asp-for="SubCategory.CategoryId" class="col-form-label"></label>
                 </div>
                 <div class="col-5">
-                    <select id="ddlCategorylist" asp-for="SubCategory.CategoryId" asp-items="Model.CategoryList.ToSelectListItem(Model.SubCategory.CategoryId)" class="form-control"></select>
+                    <select id="ddlCategorylist" asp-for="SubCategory.CategoryId" disabled asp-items="Model.CategoryList.ToSelectListItem(Model.SubCategory.CategoryId)" class="form-control"></select>
                 </div>
             </div>
             <div class="form-group row">
@@ -39,7 +40,7 @@
             </div>
             <div class="form-group row">
                 <div class="col-5 offset-3">
-                    <partial name="_CreateAndBackToListButton" />
+                    <partial name="_EditAndBackToListButton" model="Model.SubCategory.Id"/>
                 </div>
             </div>
         </form>
@@ -72,7 +73,7 @@
                 url: '/Admin/SubCategory/GetSubCategory/' + categorySelected,
                 type: 'GET',
                 dataType: 'text',
-                success: function(data) {
+                success: function (data) {
                     results = JSON.parse(data);
                     $list.html('');
                     $list.append(' <ul class="list-group"> ');
@@ -85,14 +86,9 @@
             });
         }
 
-        $(document).ready(function() {
+        $(document).ready(function () {
             updateSubCategoryList();
         });
-
-        $("#ddlCategorylist").on("change",
-            function() {
-                updateSubCategoryList();
-            });
 
     </script>
 }
