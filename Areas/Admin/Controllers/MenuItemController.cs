@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Spice.Data;
+using Spice.Models.ViewModels;
 
 namespace Spice.Areas.Admin.Controllers
 {
@@ -15,10 +16,19 @@ namespace Spice.Areas.Admin.Controllers
         private readonly ApplicationDbContext _db;
         private readonly IWebHostEnvironment _hotingEnvironment;
 
+        [BindProperty]
+        public MenuItemViewModel MenuItemVM { get; set; }
+
+
         public MenuItemController(ApplicationDbContext db, IWebHostEnvironment hotingEnvironment)
         {
             _db = db;
             _hotingEnvironment = hotingEnvironment;
+            MenuItemVM = new MenuItemViewModel()
+            {
+                Category = _db.Category,
+                MenuItem = new Models.MenuItem()
+            };
         }
 
 
@@ -26,6 +36,13 @@ namespace Spice.Areas.Admin.Controllers
         {
             var menuItem = await _db.MenuItem.Include(m=>m.Category).Include(m=>m.SubCategory).ToListAsync();
             return View(menuItem);
+        }
+
+
+        //GET - Create
+        public IActionResult Create()
+        {
+            return view(MenuItemVM);
         }
     }
 }
