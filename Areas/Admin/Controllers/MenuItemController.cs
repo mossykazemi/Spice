@@ -14,16 +14,16 @@ namespace Spice.Areas.Admin.Controllers
     public class MenuItemController : Controller
     {
         private readonly ApplicationDbContext _db;
-        private readonly IWebHostEnvironment _hotingEnvironment;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
         [BindProperty]
         public MenuItemViewModel MenuItemVM { get; set; }
 
 
-        public MenuItemController(ApplicationDbContext db, IWebHostEnvironment hotingEnvironment)
+        public MenuItemController(ApplicationDbContext db, IWebHostEnvironment hostEnvironment)
         {
             _db = db;
-            _hotingEnvironment = hotingEnvironment;
+            _hostEnvironment = hostEnvironment;
             MenuItemVM = new MenuItemViewModel()
             {
                 Category = _db.Category,
@@ -42,7 +42,7 @@ namespace Spice.Areas.Admin.Controllers
         //GET - Create
         public IActionResult Create()
         {
-            return view(MenuItemVM);
+           return View(MenuItemVM);
         }
     }
 }
