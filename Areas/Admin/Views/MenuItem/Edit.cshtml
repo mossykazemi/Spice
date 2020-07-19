@@ -2,7 +2,7 @@
 @using Spice.Extentions
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -10,7 +10,7 @@
 <h2 class="text-info">Edit MenuItem</h2>
 <br />
 
-<form method="post" asp-action="Create" enctype="multipart/form-data">
+<form method="post" asp-action="Edit" enctype="multipart/form-data">
     <div class="border backgroundWhite row">
         <input type="hidden" asp-for="MenuItem.Id" />
 
@@ -113,14 +113,17 @@
         function getSubCategory() {
             var url = '@Url.Content("~/")' + "Admin/SubCategory/GetSubCategory";
             var ddlsoruce = '#CategoryId';
-            $.getJSON(url, { id: $(ddlsoruce).val() }, function (data) {
-                var items = '';
-                $('#SubCategoryId').empty();
-                $.each(data, function (i, subcategory) {
-                    items += "<option value='" + subcategory.value + "'>" + subcategory.text + "</option>";
+            $.getJSON(url,
+                { id: $(ddlsoruce).val() },
+                function(data) {
+                    var items = '';
+                    $('#SubCategoryId').empty();
+                    $.each(data,
+                        function(i, subcategory) {
+                            items += "<option value='" + subcategory.value + "'>" + subcategory.text + "</option>";
+                        });
+                    $('#SubCategoryId').html(items);
                 });
-                $('#SubCategoryId').html(items);
-            })
         }
     </script>
 
