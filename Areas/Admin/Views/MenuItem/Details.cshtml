@@ -2,7 +2,7 @@
 
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -13,12 +13,13 @@
 
 <div class="border backgroundWhite row">
     <div class="col-8">
+        <fieldset disabled>
         <div class="form-group row">
             <div class="col-4">
                 <label asp-for="MenuItem.Name" class="col-form-label"></label>
             </div>
             <div class="col-8">
-                <input asp-for="MenuItem.Name" class="form-control" />
+                <input asp-for="MenuItem.Name" class="form-control"/>
             </div>
             <span asp-validation-for="MenuItem.Name" class="text-danger"></span>
         </div>
@@ -36,7 +37,7 @@
                 <label asp-for="MenuItem.Price" class="col-form-label"></label>
             </div>
             <div class="col-8">
-                <input asp-for="MenuItem.Price" class="form-control" />
+                <input asp-for="MenuItem.Price" class="form-control"/>
             </div>
             <span asp-validation-for="MenuItem.Price" class="text-danger"></span>
         </div>
@@ -46,7 +47,7 @@
                 <label asp-for="MenuItem.CategoryId" class="col-form-label"></label>
             </div>
             <div class="col-8">
-                <input asp-for="MenuItem.Category.Name" class="form-control" />
+                <input asp-for="MenuItem.Category.Name" class="form-control"/>
             </div>
         </div>
         <div class="form-group row">
@@ -54,18 +55,18 @@
                 <label asp-for="MenuItem.SubCategoryId" class="col-form-label"></label>
             </div>
             <div class="col-8">
-                <input asp-for="MenuItem.SubCategory.Name" class="form-control" />
+                <input asp-for="MenuItem.SubCategory.Name" class="form-control"/>
             </div>
         </div>
         <div class="form-group row">
             <div class="col-4">
-                <label asp-for="MenuItem.Spicyness" class="col-form-label"></label>
+                <label asp-for="MenuItem.Spicyness" class="custom-label"></label>
             </div>
             <div class="col-8">
-                <input asp-for="MenuItem.Spicyness" asp-items="Html.GetEnumSelectList<MenuItem.ESpicy>()" class="form-control" />
+                <select asp-for="MenuItem.Spicyness" asp-items="Html.GetEnumSelectList<MenuItem.ESpicy>()" class="form-control"></select>
             </div>
         </div>
-
+        </fieldset>
     </div>
     <div class="col-3 offset-1">
         <img src="@Model.MenuItem.Image" width="100%" style="border-radius:5px;border: 1px solid #bbb9b9;" />
@@ -90,5 +91,5 @@
         });
     </script>
 
-    <script>tinymce.init({ selector: 'textarea' });</script>
+    @*<script>tinymce.init({ selector: 'textarea' });</script>*@
 }
