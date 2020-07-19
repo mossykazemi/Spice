@@ -174,16 +174,16 @@ namespace Spice.Areas.Admin.Controllers
 
 
         //GET - DETAILS
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Deatils(int? id)
         {
-            if (id == null)
+            if (id==null)
             {
                 return NotFound();
             }
 
-            MenuItemVM.MenuItem = await _db.MenuItem.Include(m => m.Category).Include(m => m.SubCategory).SingleOrDefaultAsync(m => m.Id == id);
-
-            if (MenuItemVM.MenuItem == null)
+            MenuItemVM.MenuItem = await _db.MenuItem.Include(m => m.Category).Include(m => m.SubCategory)
+                .SingleOrDefaultAsync(m => m.Id == id);
+            if (MenuItemVM==null)
             {
                 return NotFound();
             }
