@@ -30,7 +30,7 @@ namespace Spice.Areas.Admin.Controllers
             return View(await _db.Coupon.ToListAsync());
         }
 
-        
+
         //GET - Create
 
         public IActionResult Create()
@@ -48,12 +48,12 @@ namespace Spice.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var files = HttpContext.Request.Form.Files;
-                if (files.Count>0)
+                if (files.Count > 0)
                 {
                     byte[] p1 = null;
                     using (var fs1 = files[0].OpenReadStream())
                     {
-                        using (var ms1=new MemoryStream())
+                        using (var ms1 = new MemoryStream())
                         {
                             fs1.CopyTo(ms1);
                             p1 = ms1.ToArray();
@@ -75,13 +75,13 @@ namespace Spice.Areas.Admin.Controllers
         //GET - EDIT
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id==null)
+            if (id == null)
             {
                 return NotFound();
             }
 
             var copoun = await _db.Coupon.SingleOrDefaultAsync(m => m.Id == id);
-            if (copoun==null)
+            if (copoun == null)
             {
                 return NotFound();
             }
@@ -96,7 +96,7 @@ namespace Spice.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Coupon coupons)
         {
-            if (coupons.Id==0)
+            if (coupons.Id == 0)
             {
                 return NotFound();
             }
@@ -106,12 +106,12 @@ namespace Spice.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 var files = HttpContext.Request.Form.Files;
-                if (files.Count>0)
+                if (files.Count > 0)
                 {
                     byte[] p1 = null;
                     using (var fs1 = files[0].OpenReadStream())
                     {
-                        using (var ms1=new MemoryStream())
+                        using (var ms1 = new MemoryStream())
                         {
                             fs1.CopyTo(ms1);
                             p1 = ms1.ToArray();
@@ -133,17 +133,17 @@ namespace Spice.Areas.Admin.Controllers
 
             return View(coupons);
         }
-        
+
         //GET - DETAILS
         public async Task<IActionResult> Details(int? id)
         {
-            if (id==null)
+            if (id == null)
             {
                 return NotFound();
             }
 
             var coupon = await _db.Coupon.FirstOrDefaultAsync(m => m.Id == id);
-            if (coupon==null)
+            if (coupon == null)
             {
                 return NotFound();
             }
@@ -155,18 +155,28 @@ namespace Spice.Areas.Admin.Controllers
         //GET - DELETE 
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id==null)
+            if (id == null)
             {
                 return NotFound();
             }
 
             var coupon = await _db.Coupon.SingleOrDefaultAsync(m => m.Id == id);
-            if (coupon==null)
+            if (coupon == null)
             {
                 return NotFound();
             }
 
             return View(coupon);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var coupons = await _db.Coupon.SingleOrDefaultAsync(m => m.Id == id);
+            _db.Coupon.Remove(coupons);
+            await _db.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
     }
 }
