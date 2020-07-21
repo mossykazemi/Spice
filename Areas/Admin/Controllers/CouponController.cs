@@ -142,7 +142,7 @@ namespace Spice.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            var coupon = _db.Coupon.FirstOrDefaultAsync(m => m.Id == id);
+            var coupon = await _db.Coupon.FirstOrDefaultAsync(m => m.Id == id);
             if (coupon==null)
             {
                 return NotFound();
