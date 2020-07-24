@@ -2,6 +2,7 @@
 
 <br />
 
+@*Coupons Carousel*@
 @if (Model.Coupon.ToList().Count > 0)
 {
     <div class="border">
@@ -10,15 +11,12 @@
             {
                 if (i == 0)
                 {
-
-
                     <div class="carousel-item active">
                         @{
                             var base64 = Convert.ToBase64String(Model.Coupon.ToList()[i].Picture);
                             var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
                         }
-
-                        <img src="@imgsrc" height="50px" class="d-block w-100" />
+                        <img src="@imgsrc" height="70px" class="d-block w-100" />
                     </div>
                 }
                 else
@@ -29,7 +27,7 @@
                             var imgsrc = string.Format("data:image/jpg;base64,{0}", base64);
                         }
 
-                        <img src="@imgsrc" height="50px" class="d-block w-100" />
+                        <img src="@imgsrc" height="70px" class="d-block w-100" />
                     </div>
                 }
             }
@@ -42,7 +40,7 @@
 
 <div class="backgroundWhite container">
          
-    <ul id="menu-filters" class="menu-filter-list list-group list-group-horizontal text-center justify-content-center">
+    <ul id="menu-filters" class="menu-filter-list list-group-horizontal text-center justify-content-center">
         <li class="list-group-item active btn btn-secondary ml-1 mr-1" data-filter=".menu-restaurant">Show All</li>
 
         @foreach (var item in Model.Category)
@@ -81,7 +79,7 @@
 
             setTimeout(function () {
                 $(selectedFilter).slideDown();
-            }, 300);
+            }, 400);
         });
 
     })(jQuery);
