@@ -7,11 +7,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Spice.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Spice.Services;
 
 namespace Spice
 {
@@ -32,8 +34,9 @@ namespace Spice
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<IdentityUser,IdentityRole>()
                 .AddDefaultTokenProviders()
-                .AddDefaultUI()
+               // .AddDefaultUI()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddSingleton<IEmailSender, EmailSender>();
             services.AddControllersWithViews();
             services.AddRazorPages().AddRazorRuntimeCompilation();
         }
