@@ -13,6 +13,7 @@ using Spice.Utility;
 namespace Spice.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = SD.ManagerUser)]
     public class CouponController : Controller
     {
         private readonly ApplicationDbContext _db;

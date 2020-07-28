@@ -154,10 +154,9 @@ namespace Spice.Areas.Identity.Pages.Account
                         }
                     }
 
+                    return RedirectToAction("Index", "User", new { area = "Admin" });
 
-                    return RedirectToAction("Index", "User", new {area = "Admin"});
-
-                    //_logger.LogInformation("User created a new account with password.");
+                    _logger.LogInformation("User created a new account with password.");
 
                     //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     //code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
