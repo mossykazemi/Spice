@@ -6,11 +6,15 @@ using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Spice.Data;
+using Spice.Models;
 
 namespace Spice.Areas.Identity.Pages.Account
 {
@@ -20,14 +24,16 @@ namespace Spice.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly ApplicationDbContext _db;
 
         public LoginModel(SignInManager<IdentityUser> signInManager, 
             ILogger<LoginModel> logger,
-            UserManager<IdentityUser> userManager)
+            UserManager<IdentityUser> userManager, ApplicationDbContext db)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _db = db;
         }
 
         [BindProperty]
@@ -82,6 +88,14 @@ namespace Spice.Areas.Identity.Pages.Account
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    var user = await _db.Users.Where(u => u.Email == Input.Email).FirstOrDefaultAsync();
+
+                    List<ShoppingCart> lstShoppingCart =
+                        await _db.ShoppingCart.Where(u => u.ApplicationUserId == user.Id).ToListAsync();
+
+                    HttpContext.Session.SetInt32("ssCartCount",lstShoppingCart.Count);
+
+
                     _logger.LogInformation("User logged in.");
                     return LocalRedirect(returnUrl);
                 }

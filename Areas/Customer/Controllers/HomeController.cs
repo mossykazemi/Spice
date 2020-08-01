@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Spice.Data;
 using Spice.Models;
 using Spice.Models.ViewModels;
+using Spice.Utility;
 
 namespace Spice.Controllers
 {
@@ -19,18 +20,13 @@ namespace Spice.Controllers
     public class HomeController : Controller
     {
         private readonly ApplicationDbContext _db;
+        private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ApplicationDbContext db)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext db)
         {
+            _logger = logger;
             _db = db;
         }
-        
-        // private readonly ILogger<HomeController> _logger;
-        //
-        // public HomeController(ILogger<HomeController> logger)
-        // {
-        //     _logger = logger;
-        // }
 
         public async Task<IActionResult> Index()
         {
@@ -40,44 +36,54 @@ namespace Spice.Controllers
                 Category = await _db.Category.ToListAsync(),
                 Coupon = await _db.Coupon.Where(c => c.IsActive == true).ToListAsync()
             };
+
+
+
+            var claimsIdentity = (ClaimsIdentity) User.Identity;
+            var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
+
+            if (claim!=null)
+            {
+                var cnt = _db.ShoppingCart.Where(u => u.ApplicationUserId == claim.Value).ToList().Count();
+                HttpContext.Session.SetInt32("ssCartCount",cnt);
+            }
             
             return View(IndexVM);
         }
 
 
+
         [Authorize]
         public async Task<IActionResult> Details(int id)
         {
-            var menuItemFromDb = await _db.MenuItem.Include(m => m.Category).Include(m => m.SubCategory)
-                .Where(m=>m.Id==id).FirstOrDefaultAsync();
+            var menuItemFromDb = await _db.MenuItem.Include(m => m.Category).Include(m => m.SubCategory).Where(m => m.Id == id).FirstOrDefaultAsync();
 
             ShoppingCart cartObj = new ShoppingCart()
             {
                 MenuItem = menuItemFromDb,
                 MenuItemId = menuItemFromDb.Id
             };
+
             return View(cartObj);
         }
-
 
 
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult>Details(ShoppingCart CartObject)
+        public async Task<IActionResult> Details(ShoppingCart CartObject)
         {
             CartObject.Id = 0;
             if (ModelState.IsValid)
             {
-                var claimsIdentity = (ClaimsIdentity) this.User.Identity;
+                var claimsIdentity = (ClaimsIdentity)this.User.Identity;
                 var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
                 CartObject.ApplicationUserId = claim.Value;
 
-                ShoppingCart cartFromDb = await _db.ShoppingCart.Where(c =>
-                        c.ApplicationUserId == CartObject.ApplicationUserId && c.MenuItemId == CartObject.MenuItemId)
-                    .FirstOrDefaultAsync();
+                ShoppingCart cartFromDb = await _db.ShoppingCart.Where(c => c.ApplicationUserId == CartObject.ApplicationUserId
+                                                && c.MenuItemId == CartObject.MenuItemId).FirstOrDefaultAsync();
 
-                if (cartFromDb==null)
+                if (cartFromDb == null)
                 {
                     await _db.ShoppingCart.AddAsync(CartObject);
                 }
@@ -85,27 +91,28 @@ namespace Spice.Controllers
                 {
                     cartFromDb.Count = cartFromDb.Count + CartObject.Count;
                 }
-
                 await _db.SaveChangesAsync();
 
-                var count = _db.ShoppingCart.Where(c => c.ApplicationUserId == CartObject.ApplicationUserId).ToList()
-                    .Count();
-                HttpContext.Session.SetInt32("ssCartCount",count);
+                var count = _db.ShoppingCart.Where(c => c.ApplicationUserId == CartObject.ApplicationUserId).ToList().Count();
+                HttpContext.Session.SetInt32(SD.ssShoppingCartCount, count);
 
                 return RedirectToAction("Index");
             }
             else
             {
-                var menuItemFromDb = await _db.MenuItem.Include(m => m.Category).Include(m => m.SubCategory)
-                    .Where(m => m.Id == CartObject.MenuItemId).FirstOrDefaultAsync();
+
+                var menuItemFromDb = await _db.MenuItem.Include(m => m.Category).Include(m => m.SubCategory).Where(m => m.Id == CartObject.MenuItemId).FirstOrDefaultAsync();
+
                 ShoppingCart cartObj = new ShoppingCart()
                 {
                     MenuItem = menuItemFromDb,
                     MenuItemId = menuItemFromDb.Id
                 };
+
                 return View(cartObj);
             }
         }
+
 
         public IActionResult Privacy()
         {
