@@ -45,7 +45,7 @@ namespace Spice.Controllers
             if (claim!=null)
             {
                 var cnt = _db.ShoppingCart.Where(u => u.ApplicationUserId == claim.Value).ToList().Count();
-                HttpContext.Session.SetInt32("ssCartCount",cnt);
+                HttpContext.Session.SetInt32(SD.ssShoppingCartCount,cnt);
             }
             
             return View(IndexVM);
