@@ -49,12 +49,12 @@ namespace Spice.Controllers
             var menuItemFromDb = await _db.MenuItem.Include(m => m.Category).Include(m => m.SubCategory)
                 .Where(m=>m.Id==id).FirstOrDefaultAsync();
 
-            ShoppingCart cartobj = new ShoppingCart()
+            ShoppingCart cartObj = new ShoppingCart()
             {
                 MenuItem = menuItemFromDb,
                 MenuItemId = menuItemFromDb.Id
             };
-            return View(cartobj);
+            return View(cartObj);
         }
 
 
