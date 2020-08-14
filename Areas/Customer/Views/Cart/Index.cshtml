@@ -9,20 +9,34 @@
     @if (Model.ListCart.Count > 0)
     {
         <br />
-        <input id="userId" asp-for="@Model.ListCart[0].ApplicationUserId" hidden/>
+        <input id="userId" asp-for="@Model.ListCart[0].ApplicationUserId" hidden />
         <div class="backgroundWhiteBorder">
-        <div class="container">
-            <div class="card">
-                <div class="card-header bg-dark text-light ml-0 row container">
-                    <div class="col-6">
-                        <i class="fa fa-shopping-cart"></i> &nbsp; Shopping Cart
+            <div class="container">
+                <div class="card">
+                    <div class="card-header bg-dark text-light ml-0 row container">
+                        <div class="col-6">
+                            <i class="fa fa-shopping-cart"></i> &nbsp; Shopping Cart
+                        </div>
+                        <div class="col-6 text-right">
+                            <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-outline-info btn-sm">Continue Shopping</a>
+                        </div>
                     </div>
-                    <div class="col-6 text-right">
-                        <a asp-area="Customer" asp-controller="Home" asp-action="Index" class="btn btn-outline-info btn-sm">Continue Shopping</a>
+                    <div class="card-body">
+                        @foreach (var item in Model.ListCart)
+                        {
+                            <div class="row">
+                                <div class="d-none d-lg-block col-lg-2 text-center">
+                                    <img src="@item.MenuItem.Image" width="120" height="80"/>
+                                </div>
+                                <div class="col-12 text-sm-center clo-lg-5 text-lg-left">
+                                    <h4><strong>@item.MenuItem.Name</strong></h4>
+                                    <h4><small>@item.MenuItem.Description</small></h4>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     }
     else

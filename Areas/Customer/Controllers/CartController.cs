@@ -28,7 +28,7 @@ namespace Spice.Areas.Customer.Controllers
         {
             detailCart = new OrderDetailsCart()
             {
-                OrderHeader = new Models.OrderHeader()
+                OrderHeader = new OrderHeader()
             };
 
             detailCart.OrderHeader.OrderTotal = 0;
@@ -41,6 +41,7 @@ namespace Spice.Areas.Customer.Controllers
             {
                 detailCart.ListCart = cart.ToList();
             }
+
 
             foreach (var list in detailCart.ListCart)
             {
