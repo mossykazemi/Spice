@@ -13,7 +13,10 @@ namespace Spice.Models
         {
             Count = 1;
         }
+
+
         public int Id { get; set; }
+
         public string ApplicationUserId { get; set; }
 
         [NotMapped]
@@ -26,6 +29,7 @@ namespace Spice.Models
         [NotMapped]
         [ForeignKey("MenuItemId")]
         public virtual MenuItem MenuItem { get; set; }
+
 
         [Range(1,int.MaxValue,ErrorMessage="Please Enter a value greater than or equal to {1}")]
         public int Count { get; set; }

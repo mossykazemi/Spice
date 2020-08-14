@@ -46,7 +46,7 @@ namespace Spice.Models
         public string Comments { get; set; }
 
 
-        [Display(Name = "Pickup Name")] 
+        [Display(Name = "Pickup Name")]
         public string PickupName { get; set; }
 
         [Display(Name = "Phone Number")]

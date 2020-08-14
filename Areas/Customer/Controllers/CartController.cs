@@ -12,11 +12,12 @@ using Spice.Utility;
 
 namespace Spice.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     public class CartController : Controller
     {
         private readonly ApplicationDbContext _db;
 
-        [BindProperty] 
+        [BindProperty]
         public OrderDetailsCart detailCart { get; set; }
 
         public CartController(ApplicationDbContext db)
@@ -32,11 +33,11 @@ namespace Spice.Areas.Customer.Controllers
 
             detailCart.OrderHeader.OrderTotal = 0;
 
-            var claimsIdentity = (ClaimsIdentity) User.Identity;
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
             var claim = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier);
 
             var cart = _db.ShoppingCart.Where(c => c.ApplicationUserId == claim.Value);
-            if (cart!=null)
+            if (cart != null)
             {
                 detailCart.ListCart = cart.ToList();
             }
@@ -44,10 +45,9 @@ namespace Spice.Areas.Customer.Controllers
             foreach (var list in detailCart.ListCart)
             {
                 list.MenuItem = await _db.MenuItem.FirstOrDefaultAsync(m => m.Id == list.MenuItemId);
-                detailCart.OrderHeader.OrderTotal =
-                    detailCart.OrderHeader.OrderTotal + (list.MenuItem.Price * list.Count);
+                detailCart.OrderHeader.OrderTotal = detailCart.OrderHeader.OrderTotal + (list.MenuItem.Price * list.Count);
                 list.MenuItem.Description = SD.ConvertToRawHtml(list.MenuItem.Description);
-                if (list.MenuItem.Description.Length>100)
+                if (list.MenuItem.Description.Length > 100)
                 {
                     list.MenuItem.Description = list.MenuItem.Description.Substring(0, 99) + "...";
                 }

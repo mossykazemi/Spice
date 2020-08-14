@@ -91,9 +91,10 @@ namespace Spice.Areas.Identity.Pages.Account
                 {
                     var user = await _db.Users.Where(u => u.Email == Input.Email).FirstOrDefaultAsync();
 
-                    var count = await _db.ShoppingCart.Where(s => s.ApplicationUserId == user.Id).SumAsync(s => s.Count);
+                    List<ShoppingCart> lstShoppingCart =
+                        await _db.ShoppingCart.Where(u => u.ApplicationUserId == user.Id).ToListAsync();
 
-                    HttpContext.Session.SetInt32(SD.ssShoppingCartCount, count);
+                    HttpContext.Session.SetInt32(SD.ssShoppingCartCount,lstShoppingCart.Count);
 
 
                     _logger.LogInformation("User logged in.");

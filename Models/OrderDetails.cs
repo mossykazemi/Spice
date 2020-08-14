@@ -9,7 +9,8 @@ namespace Spice.Models
 {
     public class OrderDetails
     {
-        [Key] public int Id { get; set; }
+        [Key]
+        public int Id { get; set; }
 
         [Required] public int OrderId { get; set; }
 
@@ -26,7 +27,7 @@ namespace Spice.Models
         public string Name { get; set; }
         public string Description { get; set; }
 
-        [Required] 
+        [Required]
         public double Price { get; set; }
     }
 }

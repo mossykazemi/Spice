@@ -26,6 +26,9 @@ namespace Spice.Models
         public double MinimumAmount { get; set; }
 
         public byte[] Picture { get; set; }
+
+
+        [Display(Name = "Is Active")]
         public bool IsActive { get; set; }
     }
 }
