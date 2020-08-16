@@ -28,7 +28,6 @@ namespace Spice.Controllers
             _db = db;
         }
 
-
         public async Task<IActionResult> Index()
         {
             IndexViewModel IndexVM = new IndexViewModel()
