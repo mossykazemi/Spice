@@ -16,6 +16,7 @@ namespace Spice.Utility
         public const string CustomerEndUser = "Customer";
 
         public const string ssShoppingCartCount = "ssCartCount";
+        public const string ssCouponCode = "ssCouponCode";
 
 
         public static string ConvertToRawHtml(string source)
