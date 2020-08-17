@@ -34,7 +34,7 @@
                                 </div>
                                 <div class="col-12 text-sm-center col-lg-5 text-lg-right row">
                                     <div class="col-4 text-md-right" style="padding-top: 5px;">
-                                        <h6><strong>$@item.MenuItem.Price <span class="text-muted">x</span>@item.Count</strong></h6>
+                                        <h6><strong>$@item.MenuItem.Price <span class="text-muted">x</span> @item.Count</strong></h6>
                                     </div>
                                     <div class="col-6 col-sm-4 col-lg-6">
                                         <div class="float-right mx-1">
@@ -57,6 +57,39 @@
                             </div>
                             <hr />
                         }
+
+                        <div class="row">
+                            <div class="col-12 col-md-5">
+                                <div class="row">
+                                    <div class="col-7">
+                                        <input asp-for="@Model.OrderHeader.CouponCode" id="txtCouponCode" class="form-control" placeholder="coupon code..." />
+                                    </div>
+                                    <div class="col-5" style="margin-top: 2px;">
+                                        <button type="submit" class="btn btn-sm form-control btn-outline-success" id="btnCoupon" asp-action="AddCoupon">
+                                            Apply
+                                        </button>
+                                        <button type="submit" class="btn btn-sm form-control btn-outline-danger" style="display: none" id="btnRemoveCoupon" asp-action="AddCoupon">
+                                            Remove
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-6 offset-md-1 col-lg-4 offset-lg-3 pr-4">
+                                <ul class="list-group">
+                                    <li class="list-group-item d-flex justify-content-between bg-light">
+                                        <span class="text-info"> Total (USD)</span>
+                                        <strong class="text-info">$ <span id="txtOrderTotal">@Model.OrderHeader.OrderTotal</span> </strong>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="card-footer">
+                        <div class="col-12 col-lg-4 offset-lg-8 col-md-6 offset-md-6">
+                            <a asp-action="Summary" asp-area="Customer" asp-controller="Cart" class="btn btn-success form-control">Summary</a>
+                        </div>
                     </div>
                 </div>
             </div>
