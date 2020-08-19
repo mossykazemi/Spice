@@ -51,7 +51,7 @@
                                             <label>Date</label>
                                         </div>
                                         <div class="col-9">
-                                            <input asp-for="@Model.OrderHeader.PickupDate" id="datepicker" type="text" class="form-control" />
+                                            <input asp-for="@Model.OrderHeader.PickupDate" id="datepicker" value="" type="text" class="form-control" />
                                         </div>
                                     </div>
                                     <div class="row my-1">
@@ -59,7 +59,7 @@
                                             <label>Time</label>
                                         </div>
                                         <div class="col-9">
-                                            <input asp-for="@Model.OrderHeader.PickupTime" id="timepicker" type="text" class="form-control" />
+                                            <input asp-for="@Model.OrderHeader.PickupTime" id="timepicker" value="" type="text" class="form-control" />
                                         </div>
                                     </div>
                                     <div class="row my-1">
@@ -124,17 +124,8 @@
 
 @section Scripts{
     <script>
-        $(function () {
-            var couponCode = document.getElementById("txtCouponCode").value;
-
-            if (couponCode.length > 0) {
-                document.getElementById('btnCoupon').style.display = 'none';
-                document.getElementById('btnRemoveCoupon').style.display = '';
-            }
-            else {
-                document.getElementById('btnCoupon').style.display = '';
-                document.getElementById('btnRemoveCoupon').style.display = 'none';
-            }
+        $(function() {
+            $("#datepicker").datepicker({ minDate: 0, maxDate: "+1W" });
         });
     </script>
 }
